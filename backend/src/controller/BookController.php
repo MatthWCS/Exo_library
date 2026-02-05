@@ -36,18 +36,18 @@ class BookController extends Controller {
         }
     }
 
-        static function one( int $id) {
+    static function one( int $id) {
 
         try {
             $bookRepository = new BookRepository();
             $bookOne = $bookRepository->find(['bk_isbn' => $id]);
-
             if( !$bookOne )
             {
                 throw new Exception("Book not found !");
             }
+            $data = $bookOne[0]->bookPrepareJson();
             http_response_code(200);
-            echo json_encode($bookOne);
+            echo json_encode($data);
 
         } catch (Exception $e) {
 
@@ -56,7 +56,7 @@ class BookController extends Controller {
         }
     }
 
-    public function create() {
+    static function create() {
 
         try {
             $bookRepository = new BookRepository();
@@ -66,6 +66,7 @@ class BookController extends Controller {
             {
                 throw new Exception("Impossible to create book !");
             }
+
             http_response_code(201);
             echo json_encode($bookCreated);
 
@@ -97,18 +98,21 @@ class BookController extends Controller {
         }
     }
 
-    public function delete() {
+    static function delete( ) {
 
         try {
+            $raw = file_get_contents('php://input');
+            parse_str($raw, $criteria);
+            var_dump($criteria);
             $bookRepository = new BookRepository();
-            $bookRemove = $bookRepository->remove();
+            $bookRemove = $bookRepository->remove($criteria);
 
             if( !$bookRemove )
             {
                 throw new Exception("Impossible to delete book !");
             }
-            http_response_code(204);
-            echo json_encode($bookRemove);
+            http_response_code(200);
+            echo json_encode(["message" => "Book Deleted"]);
 
         } catch (Exception $e) {
 

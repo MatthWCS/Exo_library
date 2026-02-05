@@ -95,9 +95,19 @@ use App\Core\Database;
         * @params : rien
         * @return : object ou rien
         */
-        public function find() :array|null
+        public function find($param) :array|null
         {
             $table = $this->getTable();
+            $key = array_key_first($param);
+            $value = $param[$key];
+
+            $sql = "SELECT * FROM " . $table . " WHERE " . $key . " = :id" ;
+
+            $query = $this->getDb()->prepare( $sql );
+            $query->setFetchMode( PDO::FETCH_CLASS, $this->entity );
+            $query->execute([':id' => $value]);
+            
+            return $query->fetchAll();
         }
         
 
@@ -122,7 +132,7 @@ use App\Core\Database;
                             $query->setFetchMode( PDO::FETCH_CLASS, $this->entity );
                             $query->execute( $criteria);
                             
-                            return $query->fetchAll();
+                            return $query->fetch();
                             
                             }
 
@@ -153,12 +163,13 @@ use App\Core\Database;
     function insert ( array $data) :array
     {
         // INSERT INTO user (username, email, password) VALUES (:username, :email, :password)
-        $sql = "INSERT INTO" . $this->getTable() . " ( ";
+        $sql = "INSERT INTO " . $this->getTable() . " ( ";
         // On récupere les clé du tableau
         $columns = array_keys( $data ); // [ 'col1', 'col2', ..., 'coln' ]
         $columnList = implode(', ', $columns); // col1, col2, ..., coln
         $valueList = ":" . implode( ', :', $columns ); // :col1, :col2, ..., :coln
         $sql .= $columnList . " ) VALUES ( " . $valueList . " )";
+        var_dump($sql);
         $this->execute($sql, $data);
 
         return (["message" => "Book Created"]);
@@ -174,7 +185,7 @@ use App\Core\Database;
     public function remove( array $criteria) :void
     {
         //DELETE FROM table WHERE qqch = :qqch AND truc = :truc ...
-        $sql = "DELETE FROM " . $this.getTable() . "WHERE ";
+        $sql = "DELETE FROM " . $this.getTable() . " WHERE ";
 
         foreach( $criteria as $column => $value )
         {
@@ -187,6 +198,7 @@ use App\Core\Database;
         }
 
         $this->execute($sql, $criteria);
+        
     }
 
     /* execute
