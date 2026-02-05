@@ -1,0 +1,83 @@
+@use "../../styles/abstracts/font" as *;
+@use "../../styles/abstracts/global" as *;
+@use "../../styles/abstracts/mixins" as *;
+@use "../../styles/abstracts/normalize" as *;
+@use "../../styles/abstracts/variables" as *;
+
+.form-container {
+  h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 4rem;
+
+    h2 {
+      text-align: center;
+      font-size: 3rem;
+    }
+
+    label {
+      font-size: 2rem;
+    }
+
+    input {
+      background: transparent;
+      border: 1px solid grey;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      height: 3rem;
+    }
+
+    textarea {
+      height: 20rem;
+      resize: none;
+      border: 1px solid grey;
+      border-radius: 4px;
+    }
+
+    .submit {
+      margin-top: 2rem;
+      padding: 1.2rem 3rem;
+      font-size: 1.6rem;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+
+      &:hover, &:focus {
+        background: #6D28D9;
+      }
+    }
+  }
+
+  .infos-contact {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 2rem;
+
+    @include tablet {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .social {
+
+      a {
+        color: black;
+        font-size: 4rem;
+        margin-right: 2rem;
+      }
+    }
+  }
+}

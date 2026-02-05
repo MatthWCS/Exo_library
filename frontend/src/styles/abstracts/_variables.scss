@@ -1,0 +1,35 @@
+@use "./font" as *;
+
+$font1: "Chicle", sans-serif;
+$font2: "Oswald", serif;
+
+$colors: (
+        primary: #d5b59c,
+        secondary: #2a4a63,
+        bg: #b68f7180,
+        light: #fefefe,
+        dark: #101010,
+);
+
+@each $colorName, $value in $colors {
+  .border-#{$colorName} {
+    border: 1px solid $value;
+  }
+
+  .text-#{$colorName} {
+    color: $value;
+  }
+
+  .btn-#{$colorName} {
+    background-color: $value;
+  }
+
+  .btn-outline-#{$colorName} {
+    border: 1px solid $value;
+    color: $value;
+  }
+
+  .bg-#{$colorName} {
+    background-color: $value;
+  }
+}

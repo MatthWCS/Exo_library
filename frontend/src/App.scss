@@ -1,0 +1,22 @@
+@use "./styles/abstracts/_index.scss" as *;
+
+* {
+  box-sizing: border-box;
+  font-family: "Oswald", serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  position: relative;
+  overflow-x: hidden;
+}

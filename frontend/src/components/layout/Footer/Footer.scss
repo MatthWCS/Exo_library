@@ -1,0 +1,36 @@
+@use "../../../styles/abstracts/font" as *;
+@use "../../../styles/abstracts/global" as *;
+@use "../../../styles/abstracts/mixins" as *;
+@use "../../../styles/abstracts/normalize" as *;
+@use "../../../styles/abstracts/variables" as *;
+
+
+footer {
+  background-color: #5a5a5a;
+
+  .top {
+    margin: 0 1rem;
+    .liste {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      & > a {
+        padding: 1rem;
+      }
+
+      @include tablet {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+  }
+
+}
