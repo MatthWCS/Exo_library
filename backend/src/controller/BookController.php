@@ -1,26 +1,33 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
+use App\Core\Controller;
 use App\Repository\BookRepository;
+
 use \Exception;
 
 class BookController extends Controller {
 
-    static function list() {
+    static function all() {
 
         try {
 
             $bookRepository = new BookRepository();
-
+            $data = [];
             $bookList = $bookRepository->findAll();
-
             if( !$bookList )
             {
                 throw new Exception("Books not found !");
             }
+            foreach($bookList as $book)
+            {
+                array_push($data, $book->bookPrepareJson());
+            }
 
-            echo json_encode($bookList);
+            http_response_code(200);
+            echo json_encode($data);
+            
 
         } catch (Exception $e)
         {
@@ -29,17 +36,17 @@ class BookController extends Controller {
         }
     }
 
-    public function one() {
+        static function one( int $id) {
 
         try {
             $bookRepository = new BookRepository();
-            $bookOne = $bookRepository->find();
+            $bookOne = $bookRepository->find(['bk_isbn' => $id]);
 
             if( !$bookOne )
             {
                 throw new Exception("Book not found !");
             }
-
+            http_response_code(200);
             echo json_encode($bookOne);
 
         } catch (Exception $e) {
@@ -53,13 +60,13 @@ class BookController extends Controller {
 
         try {
             $bookRepository = new BookRepository();
-            $bookCreated = $bookRepository->insert();
+            $bookCreated = $bookRepository->insert($_POST);
 
             if( !$bookCreated )
             {
                 throw new Exception("Impossible to create book !");
             }
-
+            http_response_code(201);
             echo json_encode($bookCreated);
 
         } catch (Exception $e) {
@@ -80,7 +87,7 @@ class BookController extends Controller {
             {
                 throw new Exception("Impossible to update book !");
             }
-
+            http_response_code(200);
             echo json_encode($bookUpdated);
 
         } catch (Exception $e) {
@@ -89,6 +96,7 @@ class BookController extends Controller {
             var_dump( $errorMessage );
         }
     }
+
     public function delete() {
 
         try {
@@ -99,7 +107,7 @@ class BookController extends Controller {
             {
                 throw new Exception("Impossible to delete book !");
             }
-
+            http_response_code(204);
             echo json_encode($bookRemove);
 
         } catch (Exception $e) {

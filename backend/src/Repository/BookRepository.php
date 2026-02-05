@@ -1,8 +1,9 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
-use Entity\Book;
+use App\Core\Repository;
+use App\Entity\Book;
 
 class BookRepository extends Repository {
 
@@ -10,4 +11,6 @@ class BookRepository extends Repository {
     {
         parent::__construct( Book::class );
     }
+
+    
 }

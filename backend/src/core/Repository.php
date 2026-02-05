@@ -1,6 +1,8 @@
 <?php
 
-namespace src\Core;
+namespace App\Core;
+
+use App\Core\Database;
 
  use PDO;
 
@@ -80,20 +82,20 @@ namespace src\Core;
     public function findAll() :array|null
     {
         $table = $this->getTable();
-        $sql = "SELECT * FROM" . $table;
-        $query = $this->getConnection()->prepare( $sql );
+        $sql = "SELECT * FROM " . $table;
+        $query = $this->getDb()->prepare( $sql );
         $query->setFetchMode( PDO::FETCH_CLASS, $this->entity );
         $query->execute();
         
         return $query->fetchAll();
-        }
+    }
         
         /* find
         * Permet de recherche par l'id
         * @params : rien
         * @return : object ou rien
         */
-        public function find() :object|null
+        public function find() :array|null
         {
             $table = $this->getTable();
         }
@@ -116,7 +118,7 @@ namespace src\Core;
                             $sql .= ' AND ';
                             }
                             }
-                            $query = $this->getConnection()->prepare( $sql );
+                            $query = $this->getDb()->prepare( $sql );
                             $query->setFetchMode( PDO::FETCH_CLASS, $this->entity );
                             $query->execute( $criteria);
                             
@@ -148,7 +150,7 @@ namespace src\Core;
     * @params : array contenant les données à inserer
     * @return : rien
     */
-    function insert ( array $data) :void
+    function insert ( array $data) :array
     {
         // INSERT INTO user (username, email, password) VALUES (:username, :email, :password)
         $sql = "INSERT INTO" . $this->getTable() . " ( ";
@@ -158,6 +160,8 @@ namespace src\Core;
         $valueList = ":" . implode( ', :', $columns ); // :col1, :col2, ..., :coln
         $sql .= $columnList . " ) VALUES ( " . $valueList . " )";
         $this->execute($sql, $data);
+
+        return (["message" => "Book Created"]);
     }
 
 

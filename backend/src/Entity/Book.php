@@ -1,17 +1,18 @@
 <?php
 
-namespace src\entity;
+namespace App\Entity;
 
 class Book {
 
     private string $bk_isbn;
     private string $bk_name;
     private int $bk_author_id;
-    private string $bk_original_name;
-    private string $bk_translater;
+    private ?string $bk_original_name=null;
+    private ?string $bk_translater=null;
     private string $bk_format;
     private string $bk_category_id;
     private int $bk_of_month;
+    private ?string $bk_cover=null;
 
     // bk_isbn;
     public function getBkIsbn() :string
@@ -47,7 +48,7 @@ class Book {
     }
 
     // bk_original_name;
-    public function getBkOriginalName() :string
+    public function getBkOriginalName() :string|null
     {
         return $this->bk_original_name;
     }
@@ -58,7 +59,7 @@ class Book {
     }
 
     // bk_translater;
-    public function getBkTranslater() :string
+    public function getBkTranslater() :string|null
     {
         return $this->bk_translater;
     }
@@ -100,4 +101,55 @@ class Book {
     {
         $this->bk_of_month = $data;
     }
+
+    // bk_cover;
+    public function getBkCover() :string|null
+    {
+        return $this->bk_cover;
+    }
+
+    public function setBkCover( $data) :void
+    {
+        $this->bk_cover = $data;
+    }
+
+    public function bookPrepareJson() :array
+    {
+            $data=
+            [
+                'bk_isbn' => $this->getBkIsbn(),
+                'bk_name' => $this->getBkName(),
+                'bk_author_id' => $this->getBkAuthorId(),
+                'bk_original_name' => $this->getBkOriginalName(),
+                'bk_translater' => $this->getBkTranslater(),
+                'bk_format' => $this->getBkFormat(),
+                'bk_category_id' => $this->getBkCategoryId(),
+                'bk_of_month' => $this->getBkOfMonth(),
+                'bk_cover' => $this->getBkCover()
+            ];
+
+            return $data;
+    }
+
+    // public function bookJsonSerialize() :array
+    // {
+       
+    //     foreach ($data as $key => $value) 
+    //     {
+    //         $data=
+    //         [
+    //             'bk_isbn' => $this->bk_isbn,
+    //             'bk_name' => $this->bk_name,
+    //             'bk_author_id' => $this->bk_author_id,
+    //             'bk_original_name' => $this->bk_original_name,
+    //             'bk_translater' => $this->bk_translater,
+    //             'bk_format' => $this->bk_format,
+    //             'bk_category_id' => $this->bk_category_id,
+    //             'bk_of_month' => $this->bk_of_month,
+    //             'bk_cover' => $this->bk_cover
+    //         ];
+
+    //         return $data;
+    //     }
+    // }
 }

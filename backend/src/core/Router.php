@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core;
+use App\Controller\BookController;
 
 class Router
 {
@@ -38,6 +39,7 @@ class Router
 
         // si la class n'existe pas non trouvé
         if (!class_exists($controllerClass)) {
+            var_dump($controllerClass);
             $this->notFound();
             return;
         }
@@ -67,7 +69,7 @@ class Router
     */    
     private function isController(string $entity): string
     {      
-        return ucfirst($entity) . 'Controller';
+        return "App\\Controller\\" . ucfirst($entity) . 'Controller';
     }
 
 
@@ -81,7 +83,7 @@ class Router
     private function isAction(string $reqMethod, ?string $id): string
     {
         return match ($reqMethod) {
-            'GET'    => $id ? 'one'    : 'list',
+            'GET'    => $id ? 'one'    : 'all',
             'POST'   => 'create',
             'PUT'  => 'update',
             'DELETE' => 'delete',
